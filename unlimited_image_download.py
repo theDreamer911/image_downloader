@@ -8,28 +8,25 @@
 # unlimited download
 # specifying new folder path !
 
+"""
+# https://bobbyhadz.com/blog/python-attributeerror-module-collections-has-no-attribute-mutablemapping
+try:
+    #  using Python 3.10+
+    from collections.abc import MutableMapping
+except ImportError:
+    # ️ using Python 3.10-
+    from collections import MutableMapping
+
+#  <class 'collections.abc.MutableMapping'>
+print(MutableMapping)
+
+"""
+
 import os
 import requests
 from bs4 import BeautifulSoup
 import collections
 
-"""
-# https://bobbyhadz.com/blog/python-attributeerror-module-collections-has-no-attribute-mutablemapping
-try:
-    # 👇️ using Python 3.10+
-    from collections.abc import MutableMapping
-except ImportError:
-    # 👇️ using Python 3.10-
-    from collections import MutableMapping
-
-# 👇️ <class 'collections.abc.MutableMapping'>
-print(MutableMapping)
-
-What are you looking for? cat
-How many images do you want? 100
-Enter the new folder path: C:\Users\bunya\Desktop\cat\images
-
-"""
 
 # First Section: Importing Libraries
 import os
@@ -56,6 +53,9 @@ def download_images():
     data = input('What are you looking for? ')
     n_images = int(input('How many images do you want? '))
     new_folder = input('Enter the new folder path: ')
+    
+    if not new_folder:
+        new_folder = saved_folder
 
     if not os.path.exists(new_folder):
         os.makedirs(new_folder)
@@ -88,7 +88,7 @@ def download_images():
 
         for i, link in enumerate(links):
             response = requests.get(link)
-            image_name = os.path.join(new_folder, data + str(i + page * 100) + '.jpg')
+            image_name = os.path.join(new_folder, data + str(i + page * 80) + '.jpg')
             with open(image_name, 'wb') as fh:
                 fh.write(response.content)
 
@@ -100,5 +100,3 @@ def download_images():
 # Fifth Section: Run your code
 if __name__ == "__main__":
     main()
-
-
